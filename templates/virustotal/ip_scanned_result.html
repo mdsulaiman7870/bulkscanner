@@ -1,0 +1,315 @@
+{% extends 'base.html' %} {% load static %} {% block body %}
+<title>VirusTotal | Scanned Results</title>
+  <div class="page-wrapper">
+    <div class="container-xl">
+      <!-- Page title -->
+      <div class="page-header d-print-none">
+        <div class="row align-items-center">
+          <div class="col">
+            <!-- Page pre-title -->
+            <div class="page-pretitle">
+              Overview
+            </div>
+            <h2 class="page-title">
+              Dashboard
+            </h2>
+          </div>
+          <!-- Page title actions -->
+          <div class="col-auto ms-auto d-print-none">
+            <div class="btn-list">
+              {% if hash_flag_for_run_another_scan is True %}
+              <a href="{% url 'hash_scanner' %}" class="btn btn-primary d-none d-sm-inline-block">
+                <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                Run Another Scan
+              </a>
+              <a href="#" class="btn btn-primary d-sm-none btn-icon" aria-label="Create new report">
+                <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+              </a>
+              {% endif %}
+
+              {% if ip_flag_for_run_another_scan is True %}
+              <a href="{% url 'ip_scanner' %}" class="btn btn-primary d-none d-sm-inline-block">
+                <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                Run Another Scan
+              </a>
+              <a href="#" class="btn btn-primary d-sm-none btn-icon" aria-label="Create new report">
+                <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+
+          <!--Message Start-->
+          {% for message in messages %}
+          <div class="alert alert-important alert-info alert-dismissible" role="alert">
+            <div class="d-flex">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  <polyline points="11 12 12 12 12 16 13 16"></polyline>
+               </svg>
+              </div>
+              <div>
+                  {{message}}
+              </div>
+            </div>
+            <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+          </div>
+          {% endfor %}
+          <!--Message ends-->
+            <!--No Malicious IPs Found Message-->
+            {% if ip_malicious_found is False %}
+            <div class="alert alert-important alert-info alert-dismissible" role="alert">
+              <div class="d-flex">
+                <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    <polyline points="11 12 12 12 12 16 13 16"></polyline>
+                 </svg>
+                </div>
+                <div>
+                  No Malicious or new IPs Found. Non-Malicious IPs has been be stored in <a href="{% url 'allips' %}" style="color:black"> All IPs</a>.
+                  
+                </div>
+              </div>
+              <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+            </div>
+            {% endif %}
+            <!--No Malicious IPs Found Message End-->
+
+            <!--No Malicious hash Found Message-->
+            {% if hash_malicious_found is False %}
+            <div class="alert alert-important alert-info alert-dismissible" role="alert">
+              <div class="d-flex">
+                <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    <polyline points="11 12 12 12 12 16 13 16"></polyline>
+                 </svg>
+                </div>
+                <div>
+                  No Malicious or new hash Found. Non-Malicious hashes has been be stored in <a href="{% url 'all_hashes' %}" style="color:black"> All Hashes</a>.
+                  
+                </div>
+              </div>
+              <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+            </div>
+            {% endif %}
+            <!--No Malicious hash Found Message End-->
+
+             <!--Daily Limit Exceeded Message-->
+             {% for message in messages%}
+             
+             {% if 'apilimit' in message.tags %}
+             <div class="alert alert-important alert-warning alert-dismissible" role="alert">
+              <div class="d-flex">
+                <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-triangle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M12 9v2m0 4v.01"></path>
+                    <path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75"></path>
+                 </svg>
+                 </svg>
+                </div>
+                <div>
+                  {{message}}
+                </div>
+              </div>
+              <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+            </div>
+            
+            {% endif %}
+            {% endfor %}
+             <!--Daily Limit Exceeded message End-->
+
+             <!--Unknown Error Start-->
+             {% for message in messages%}
+             
+             {% if 'unknownerror' in message.tags %}
+             <div class="alert alert-warning alert-dismissible" role="alert">
+              <div class="d-flex">
+                <div>
+                  <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
+                  <!-- SVG icon code with class="alert-icon" -->
+                </div>
+                <div>
+                  <h4 class="alert-title">Uh oh, something went wrong</h4>
+                  <div class="text-muted">{{message}}</div>
+                </div>
+              </div>
+              <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+            </div>
+            
+            {% endif %}
+            {% endfor %}
+             <!--Unknown Error End-->
+
+             <!-- Column Not Found Start-->
+             {% for message in messages%}
+             
+             {% if 'columnnotfound' in message.tags %}
+             <div class="alert alert-warning alert-dismissible" role="alert">
+              <div class="d-flex">
+                <div>
+                  <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
+                  <!-- SVG icon code with class="alert-icon" -->
+                </div>
+                <div>
+                  <h4 class="alert-title">Uh oh, something went wrong</h4>
+                  <div class="text-muted">{{message}} <b>Column Name</b> not found in the given csv log file. Make sure you selected the correct  column name or log file that contains the selected column name.</div>
+                </div>
+              </div>
+              <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+            </div>
+            
+            {% endif %}
+            {% endfor %}
+             <!-- Column Not Found End-->
+             
+               <!--Malicious IPS Found Message-->
+             {% if ip_malicious_found is True %}
+             <div class="alert alert-important alert-success alert-dismissible" role="alert">
+              <div class="d-flex">
+                <div>
+               
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M5 12l5 5l10 -10"></path>
+                 </svg>
+                </div>
+                <div>
+                  Malicious IPs Found. Malicious IPs has been stored in <a href="{% url 'malicious_ips' %}" style="color:black"> <b>Malicious IPs</a></b>
+                  
+                </div>
+              </div>
+              <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+            </div>
+             {% endif %}
+             <!--Malicious IPs Found Message End-->
+
+             <!--Malicious Hashes Found Message-->
+             {% if hash_malicious_found is True %}
+             <div class="alert alert-important alert-success alert-dismissible" role="alert">
+              <div class="d-flex">
+                <div>
+               
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M5 12l5 5l10 -10"></path>
+                 </svg>
+                </div>
+                <div>
+                  Malicious Hashes Found. Malicious Hashes has been stored in <a href="{% url 'malicious_hashes' %}" style="color:black"> <b>Results/Hashes</a></b>
+                  
+                </div>
+              </div>
+              <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+            </div>
+             {% endif %}
+             <!--Malicious Hashes Found Message End-->
+    </div>
+    <div class="page-body">
+      <div class="container-xl">
+        <div class="row row-cards">
+
+        <div class="col-12">
+          <div class="card">
+            <div class="table-responsive">
+              <table class="table table-vcenter card-table">
+                <thead>
+                  <tr>
+                    <th>Object</th>
+                    
+                    <th>VirusTotal Link</th>
+                    <th>Actions</th>
+
+                    <th class="w-1"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  {% for data in ip_scanned_result %}
+                  <tr>
+                    <td>
+                      <a href="https://{{data}}" target="_blank">{{data}}</a>
+                      </td>
+                      <td>
+                        <a href="https://www.virustotal.com/gui/ip-address/{{data}}" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                          <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
+                          <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
+                       </svg>
+                      </a>
+                      </td>
+                      <td>
+
+                        <a href="{% url 'ip_details' ip=data %}" style = "text-decoration: none;" target="_blank">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                           <circle cx="12" cy="12" r="2"></circle>
+                           <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path>
+                        </svg>
+                       </a>   
+                      </td>                 
+                  </tr>
+                  {% endfor %}
+
+                  <!--Malicious Hash Scanned Results Starts-->
+                  {% if hash_malicious_found is True %}
+                  {% for data in hash_scanned_result %}
+                  <tr>
+                    <td>
+                      {{data}}
+                      </td>
+                      <td>
+                        <a href="https://www.virustotal.com/gui/file/{{data}}" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                          <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
+                          <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
+                       </svg>
+                      </a>
+                      </td>
+                  
+                      <td>           
+                        <a href="{% url 'hash_details' hash=data %}" style = "text-decoration: none;" target="_blank">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                           <circle cx="12" cy="12" r="2"></circle>
+                           <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path>
+                        </svg>
+                       </a>   
+                      </td>                 
+                  </tr>
+                  {% endfor %}
+                  {% endif %}
+                  <!--Malicious Hash Scanned Results ends-->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+          
+        </div>
+
+      </div>
+      
+    </div>
+    
+  </div>
+
+{% endblock body %}

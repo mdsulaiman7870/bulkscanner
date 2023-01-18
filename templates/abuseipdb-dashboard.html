@@ -1,0 +1,399 @@
+{% extends 'base.html' %} {% load static %} {% block body %}
+    <title>Dashboard | AbuseIPDB</title>
+    <div class="wrapper">
+      <div class="navbar-expand-md">
+        <div class="collapse navbar-collapse" id="navbar-menu">
+          
+        </div>
+      </div>
+         <!--New header-->
+
+         <div class="navbar-expand-md">
+          <div class="collapse navbar-collapse" id="navbar-menu">
+            <div class="navbar navbar-light">
+              <div class="container-xl">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="./#" >
+                      <span class="nav-link-title">
+                        Overview
+                      </span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vt_dashboard' %}" >
+                      <span class="nav-link-title">
+                        VirusTotal Dashboard
+                      </span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'abuseipdb_dashboard' %}" >
+                      <span class="nav-link-title">
+                        AbuseIPDB Dashboard
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--New header end-->
+      <div class="page-wrapper">
+        <div class="container-xl">
+          <!-- Page title -->
+          
+        </div>
+     
+        <div class="page-body">
+          <div class="container-xl">
+          <div class="row row-deck row-cards">
+
+           <!--Top 10 Malicious Domains-->
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <h3 class="card-title">Top 10 Malicious Domains(Reports)</h3>
+                <div id="chart-tasks-overview"></div>
+              </div>
+            </div>
+          </div>
+
+            <!--Top 5 Malicious IPs chart-->
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="card-title">Top 5 Malicious IPs (Reports)</h3>
+                  <div id="chart-spline"></div>
+                </div>
+              </div>
+            </div>
+            <!--Last 7 days Malicious IPs-->
+          <div class="col-lg-6 col-xl-5">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Last 7 days Malicious IPs</h3>
+              </div>
+              <div class="list-group list-group-flush overflow-auto" style="max-height: 20rem">
+                {% for data in last7days_malicious_ips %}
+                <div class="list-group-item">
+                  <div class="row">
+                    <div class="col-auto">
+                      <a href="#">
+                        <span class="avatar" style="background-image: url(./static/img/flags/{{data.country}}.svg)"></span>
+                      </a>
+                    </div>
+                    <div class="col text-truncate">
+                      <a href="{% url 'abuseipdb_ip_details' ip=data.ip %}" class="text-body d-block" target="_blank">{{data.ip}}</a>
+                      <div class="text-muted text-truncate mt-n1">Abuse Confidence Score: {{data.abuseConfidenceScore}}%</div>
+                      
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+                
+              </div>
+            </div>
+          </div>
+
+          <!--Total Malicious Items-->
+          <div class="col-lg-6 col-xl-7">
+            <div class="card">
+              <div class="card-body">
+                <h3 class="card-title">Total Malicious Items</h3>
+                <div id="chart-demo-pie"></div>
+              </div>
+            </div>
+          </div>
+
+             <!--API Data Chart-->
+          <div class="col-lg-6 col-xl-5">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">AbuseIPDB APIs</h3>
+              </div>
+              <div class="list-group list-group-flush overflow-auto" style="max-height: 20rem">
+                {% for data in abuseipdb_api_data %}
+                <div class="list-group-item">
+                  <div class="row">
+                    <div class="col text-truncate">
+                      <a href="#" class="text-body d-block" target="_blank">{{data.api|slice:":20"}}...</a>
+                      <div class="text-muted text-truncate mt-n1">Owner Name: <b>{{data.full_name}}</b></div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+                
+              </div>
+            </div>
+          </div>
+           <!--Last 7 days Malicious hashes-->
+          <div class="col-lg-6 col-xl-7">
+            <div class="card">
+              <div class="card-body">
+                <h3 class="card-title">Last 7 days Malicious Hashes</h3>
+                <div id="chart-completion-tasks-4"></div>
+              </div>
+            </div>
+          </div>
+
+          
+
+            <!--Charts ends-->
+          </div>
+          {% comment %} {% for date in last7days_malicious_ips %} '{{date.date_time|date:"Y-m-d"}}' {% endfor %} {% endcomment %}
+              
+              {% comment %} {% for ip in top5_malicious_ip_addresses %}
+                {{ip}}:{{ip.count}}:{{ip.date_time|date:"M"}}<br>
+              {% endfor %}
+
+              {% for hash in top5_malicious_hashes %}
+                {{hash}}:{{hash.count}}:{{hash.date_time|date:"M"}}<br>
+              {% endfor %} {% endcomment %}
+              {% comment %} {{years}} {% endcomment %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script>
+  // @formatter:off
+  document.addEventListener("DOMContentLoaded", function () {
+    window.ApexCharts && (new ApexCharts(document.getElementById('chart-spline'), {
+      chart: {
+        type: "line",
+        fontFamily: 'inherit',
+        height: 240,
+        parentHeightOffset: 0,
+        toolbar: {
+          show: false,
+        },
+        animations: {
+          enabled: false
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      stroke: {
+        width: 2,
+        lineCap: "round",
+        curve: "smooth",
+      },
+      series: [{
+        name: "Reports",
+        data: [{% for ip in top5_malicious_ip_addresses %} '{{ip.totalReports}}', {% endfor %}]
+      },{
+        name: "Vik",
+        data: []
+      }],
+      grid: {
+        padding: {
+          top: -20,
+          right: 0,
+          left: -4,
+          bottom: -4
+        },
+        strokeDashArray: 4,
+      },
+      xaxis: {
+        labels: {
+          padding: 0,
+        },
+        tooltip: {
+          enabled: false
+        },
+        categories: [{% for ip in top5_malicious_ip_addresses %} '{{ip.ip}}', {% endfor %}],
+      },
+      yaxis: {
+        labels: {
+          padding: 4
+        },
+      },
+      colors: ["#206bc4", "#5eba00"],
+      legend: {
+        show: false,
+      },
+    })).render();
+  });
+  // @formatter:on
+</script>
+
+<script>
+  // @formatter:off
+  document.addEventListener("DOMContentLoaded", function () {
+    window.ApexCharts && (new ApexCharts(document.getElementById('chart-demo-pie'), {
+      chart: {
+        type: "donut",
+        fontFamily: 'inherit',
+        height: 320,
+        sparkline: {
+          enabled: true
+        },
+        animations: {
+          enabled: false
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      series: [{{abuseipdb_malicious_ip_address_count}}, 0, 0, 0],
+      labels: ["IPs", "Hashes", "URLs", "Domains"],
+      grid: {
+        strokeDashArray: 4,
+      },
+      colors: ["#206bc4", "#79a6dc", "#d2e1f3", "#e9ecf1"],
+      legend: {
+        show: true,
+        position: 'bottom',
+        offsetY: 12,
+        markers: {
+          width: 10,
+          height: 10,
+          radius: 100,
+        },
+        itemMargin: {
+          horizontal: 8,
+          vertical: 8
+        },
+      },
+      tooltip: {
+        fillSeriesColor: false
+      },
+    })).render();
+  });
+  // @formatter:on
+</script>
+
+<script>
+  // @formatter:off
+  document.addEventListener("DOMContentLoaded", function () {
+    window.ApexCharts && (new ApexCharts(document.getElementById('chart-completion-tasks-4'), {
+      chart: {
+        type: "line",
+        fontFamily: 'inherit',
+        height: 240,
+        parentHeightOffset: 0,
+        toolbar: {
+          show: false,
+        },
+        animations: {
+          enabled: false
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      stroke: {
+        width: 2,
+        lineCap: "round",
+        curve: "straight",
+      },
+      series: [{
+        name: "Tasks completion",
+        data: [{{last7days_malicious_hashes_datetime_count}}]
+      }],
+      grid: {
+        padding: {
+          top: -20,
+          right: 0,
+          left: -4,
+          bottom: -4
+        },
+        strokeDashArray: 4,
+      },
+      xaxis: {
+        labels: {
+          padding: 0,
+        },
+        tooltip: {
+          enabled: false
+        },
+        type: 'datetime',
+      },
+      yaxis: {
+        labels: {
+          padding: 4
+        },
+      },
+      labels: [
+      {% for date in last7days_malicious_hashes %} '{{date.date_time|date:"Y-m-d"|safe}}', {% endfor %}
+      ],
+      colors: ["#206bc4"],
+      legend: {
+        show: false,
+      },
+    })).render();
+  });
+  // @formatter:on
+</script>
+<script>
+  // @formatter:off
+  document.addEventListener("DOMContentLoaded", function () {
+    window.ApexCharts && (new ApexCharts(document.getElementById('chart-tasks-overview'), {
+      chart: {
+        type: "bar",
+        fontFamily: 'inherit',
+        height: 320,
+        parentHeightOffset: 0,
+        toolbar: {
+          show: false,
+        },
+        animations: {
+          enabled: false
+        },
+      },
+      plotOptions: {
+        bar: {
+          columnWidth: '50%',
+        }
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      fill: {
+        opacity: 1,
+      },
+      series: [{
+        name: "Reports",
+        data: [{% for data in top10_malicious_domains %} {{data.totalReports}}, {% endfor %}]
+      }],
+      grid: {
+        padding: {
+          top: -20,
+          right: 0,
+          left: -4,
+          bottom: -4
+        },
+        strokeDashArray: 4,
+      },
+      xaxis: {
+        labels: {
+          padding: 0,
+        },
+        tooltip: {
+          enabled: false
+        },
+        axisBorder: {
+          show: false,
+        },
+        categories: [{% for data in top10_malicious_domains %} '{{data.domain}}', {% endfor %}],
+      },
+      yaxis: {
+        labels: {
+          padding: 4
+        },
+      },
+      colors: ["#206bc4"],
+      legend: {
+        show: false,
+      },
+    })).render();
+  });
+  // @formatter:on
+</script>
+{% endblock body%}

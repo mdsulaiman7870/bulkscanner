@@ -1,0 +1,523 @@
+{% extends 'base.html' %} {% load static %} 
+{% block body %}
+<title>VirusTotal | Malicious IPs</title>
+<div class="navbar-expand-md"></div>
+<div class="page-wrapper">
+  <div class="container-xl">
+    <!-- Page title -->
+    <div class="page-header d-print-none">
+      <div class="row align-items-center">
+        <div class="col">
+          <ol class="breadcrumb breadcrumb-arrows" aria-label="breadcrumbs">
+            <li class="breadcrumb-item">
+              <a href="{% url 'index' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item">VirusTotal</a></li>
+            <li class="breadcrumb-item active" aria-current="page">
+              <a href="#">Results</a>
+            <li class="breadcrumb-item active" aria-current="page">
+              <a href="{% url 'malicious_ips' %}">IP</a>
+           
+            </li>
+          </ol>
+          <br />
+
+        </div>
+                 
+        <!-- Page title actions -->
+        <div class="col-auto ms-auto d-print-none">
+          <div class="btn-list">
+            <span class="d-none d-sm-inline">
+              <a href="{% url 'allips' %}" class="btn btn-white">
+                View All IPs
+              </a>
+            </span>          
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  
+    <!--IP not found message starts-->
+    {% for message in messages%}
+    {% if 'ip_not_found' in message.tags %}
+
+    <div class="alert alert-warning alert-dismissible" role="alert">
+     <div class="d-flex">
+       <div>
+         <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
+         <!-- SVG icon code with class="alert-icon" -->
+       </div>
+       <div>
+         <h4 class="alert-title">Uh oh, something went wrong</h4>
+         <div class="text-muted">{{message}}</div>
+       </div>
+     </div>
+     <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+   </div>
+   
+   {% endif %}
+   {% endfor %}
+  <!--IP not found message ends-->
+   
+  <!--IP deleted message starts-->
+   
+   {% for message in messages%}
+   {% if 'ip_deleted' in message.tags %}
+
+   <div class="alert alert-important alert-success alert-dismissible" role="alert">
+    <div class="d-flex">
+      <div>
+     
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <path d="M5 12l5 5l10 -10"></path>
+       </svg>
+      </div>
+      <div>
+       {{message}}
+      </div>
+    </div>
+    <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+  </div>
+  {% endif %}
+  {% endfor %}
+  
+  <!--IP deleted message ends-->
+
+
+  </div>
+  <div class="page-body">
+    <div class="container-xl">
+      <!--Search query starts-->
+      <div class="col-3">
+        <form action="{% url 'search_malicious_ips' %}" method="get">
+          {% csrf_token %}
+          <div class="input-icon">
+            <span class="input-icon-addon">
+              <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="10" cy="10" r="7" /><line x1="21" y1="21" x2="15" y2="15" /></svg>
+            </span>
+            
+            <input type="text" class="form-control" placeholder="Search..." aria-label="Search in website" name="search_text">
+          </div>
+        </form>
+      </div>
+      <!--Search query end-->
+      {% if vt_ip_search_result %}
+      <!--Search Results table starts-->
+      <div class="row row-cards">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Your query: {{search_text}}</h3>
+            </div>
+            <div class="table-responsive">
+              <table
+                class="table card-table table-vcenter text-nowrap datatable" id="myTable"
+              >
+                <thead>
+                  <tr>
+                    <th>IP</th>
+                    <th>Count</th>
+                    <th>VT Link</th>
+                    <th>DateTime</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+    
+                  {% for ipdata in vt_ip_search_result%}
+                  <tr>
+                    <td>
+                      <a
+                        href="https://{{ipdata.ip}}"
+                        target="_blank"
+                        class="text-reset"
+                        tabindex="-1"
+                        >{{ipdata.ip}}</a
+                      >
+                    </td>
+
+                    <td>{{ipdata.count}}</td>
+                    <td>
+                      <a href="https://www.virustotal.com/gui/ip-address/{{ipdata.ip}}" target="_blank">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
+                        <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
+                     </svg>
+                    </a>
+                    </td>
+                    <td>{{ipdata.date_time}}</td>
+                   <td>
+
+                   <a href="{% url 'ip_details' ip=ipdata.ip %}" style = "text-decoration: none;" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <circle cx="12" cy="12" r="2"></circle>
+                      <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path>
+                   </svg>
+                  </a>
+
+                  <a href="{% url 'delete_ip' ip=ipdata.ip %}" style = "text-decoration: none;">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-off" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <line x1="3" y1="3" x2="21" y2="21"></line>
+                    <path d="M4 7h3m4 0h9"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="14" x2="14" y2="17"></line>
+                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l.077 -.923"></path>
+                    <line x1="18.384" y1="14.373" x2="19" y2="7"></line>
+                    <path d="M9 5v-1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                 </svg>
+                </a>
+
+                   </td>
+                  </tr>
+                  {% empty %}
+                  <tr><td colspan="6" style="text-align:center">No Data found</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!--Search Results table end-->
+
+      {% elif all_malicious_ips%}
+      <div class="row row-cards">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Total: {{ips_count}}</h3>
+             
+            </div>
+            <div class="card-body border-bottom py-3">
+              <div class="d-flex">
+                <form action="{% url 'malicious_ips' %}" method="GET">
+                  {% csrf_token %}
+                <div class="text-muted">
+                  Show
+                  <div class="mx-2 d-inline-block">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      value="50"
+                      size="3"
+                      aria-label="Invoices count"
+                      name="show_entries"
+                    />
+                  </div>
+                </form>
+                  entries
+                </div>
+                
+                <div class="ms-auto text-muted">
+                  Search current Page:
+                  
+                  <div class="ms-2 d-inline-block">
+                 
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      aria-label="Search invoice"
+                      name="search_table"
+                      id="myInput" 
+                      onkeyup="myFunction()"
+                    />
+       
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table
+                class="table card-table table-vcenter text-nowrap datatable" id="myTable"
+              >
+
+
+                <thead>
+
+                  <tr>
+                    <th>IP</th>
+                    <th>Count</th>
+                    <th>VT Link</th>
+                    <th>DateTime</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+    
+                  {% for ipdata in all_malicious_ips%}
+                  <tr>
+                    <td>
+                      <a
+                        href="https://{{ipdata.ip}}"
+                        target="_blank"
+                        class="text-reset"
+                        tabindex="-1"
+                        >{{ipdata.ip}}</a
+                      >
+                    </td>
+
+                    <td>{{ipdata.count}}</td>
+                    <td>
+                      <a href="https://www.virustotal.com/gui/ip-address/{{ipdata.ip}}" target="_blank">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
+                        <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
+                     </svg>
+                    </a>
+                    </td>
+                    <td>{{ipdata.date_time}}</td>
+                   <td>
+
+                   <a href="{% url 'ip_details' ip=ipdata.ip %}" style = "text-decoration: none;" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <circle cx="12" cy="12" r="2"></circle>
+                      <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path>
+                   </svg>
+                  </a>
+
+                  <a href="{% url 'delete_ip' ip=ipdata.ip %}" style = "text-decoration: none;">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-off" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <line x1="3" y1="3" x2="21" y2="21"></line>
+                    <path d="M4 7h3m4 0h9"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="14" x2="14" y2="17"></line>
+                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l.077 -.923"></path>
+                    <line x1="18.384" y1="14.373" x2="19" y2="7"></line>
+                    <path d="M9 5v-1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                 </svg>
+                </a>
+
+                   </td>
+                  </tr>
+                  {% empty %}
+                  <tr><td colspan="6" style="text-align:center">No Data found</td></tr>
+                  {% endfor %}
+                
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer d-flex align-items-center">
+              {% comment %} <p class="m-0 text-muted">
+                Showing <span>1</span> to <span>8</span> of
+                <span>{{ips_count}}</span> entries
+              </p> {% endcomment %}
+              {% if all_ips.has_other_pages %}
+              <ul class="pagination m-0 ms-auto">
+                <!--prev button starts-->
+                {% if all_ips.has_previous %}
+                <li class="page-item">
+                  <a
+                    class="page-link"
+                    href="?page={{ all_ips.previous_page_number }}"
+                    tabindex="-1"
+                    aria-disabled="true"
+                  >
+                    <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="icon"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <polyline points="15 6 9 12 15 18" />
+                    </svg>
+                    prev
+                  </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                  <a
+                    class="page-link"
+                    href="#"
+                    tabindex="-1"
+                    aria-disabled="true"
+                  >
+                    <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="icon"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <polyline points="15 6 9 12 15 18" />
+                    </svg>
+                    prev
+                  </a>
+                </li>
+                {% endif %}
+                <!--prev button ends-->
+
+                <!--pages starts-->
+
+                {% for i in all_ips.paginator.page_range %} 
+                {% if all_ips.number == i %}
+                <li class="active">
+                  <li class="page-item active">
+                    <a class="page-link">{{ i }}</a>
+                  </li>
+                </li>
+                {% else %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                </li>
+                {% endif %} {% endfor %}
+
+                <!--pages ends-->
+
+                <!--next button starts-->
+                {% if all_ips.has_next %}
+                <li class="page-item">
+                  <a
+                    class="page-link"
+                    href="?page={{ all_ips.next_page_number }}"
+                  >
+                    next
+                    <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="icon"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <polyline points="9 6 15 12 9 18" />
+                    </svg>
+                  </a>
+                </li>
+
+                {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" href="#">
+                    next
+                    <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="icon"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <polyline points="9 6 15 12 9 18" />
+                    </svg>
+                  </a>
+                </li>
+                {% endif %}
+                <!--next button ends-->
+              </ul>
+              
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        
+        {% comment %}
+        <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        <script>
+          $(document).ready(function () {
+            $("#myTable").DataTable();
+          });
+        </script>
+        {% endcomment %}
+        <script>
+ 
+          function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+          
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+              td = tr[i].getElementsByTagName("td")[0];
+              if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  tr[i].style.display = "";
+                } else {
+                  tr[i].style.display = "none";
+                }
+              }
+            }
+          }
+          </script>
+
+
+
+      </div>
+      {% else %}
+      <div class="row row-cards">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Your query: {{search_text}}</h3>
+            </div>
+            <div class="table-responsive">
+              <table
+                class="table card-table table-vcenter text-nowrap datatable" id="myTable"
+              >
+                <thead>
+                  <tr>
+                    <th>IP</th>
+                    <th>Count</th>
+                    <th>VT Link</th>
+                    <th>DateTime</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td colspan="6" style="text-align:center">No matching IP address found. Please try again.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

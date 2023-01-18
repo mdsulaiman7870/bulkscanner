@@ -1,0 +1,171 @@
+{% extends 'base.html' %} {% load static %} 
+{% block body %}
+{% load custom_tags %}  
+<title>VirusTotal | Hash Details</title>
+<div class="navbar-expand-md"></div>
+<div class="page-wrapper">
+  <div class="container-xl">
+    <!-- Page title -->
+    <div class="page-header d-print-none">
+      <div class="row align-items-center">
+        <div class="col">
+          <ol class="breadcrumb breadcrumb-arrows" aria-label="breadcrumbs">
+            <li class="breadcrumb-item">
+              <a href="{% url 'index' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item"><a href="#">VirusTotal</a></a></li>
+            <li class="breadcrumb-item" aria-current="page">
+              <a href="#">Results</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+              <a href="{% url 'malicious_hashes' %}">Hashes</a>    
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              Hash Details
+            </li>
+          </ol>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-body">
+    <div class="container-xl">
+      <div class="col-8">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              {% for hashdata in hash_details %}
+              Hash: {{hashdata.hash}}
+              {% endfor %}
+            </h3>
+            <div class="card-actions">
+
+              <div class="col-auto ms-auto d-print-none">
+                <button type="button" class="btn btn-primary" onclick="javascript:window.print();">
+                  <!-- Download SVG icon from http://tabler-icons.io/i/printer -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2" /><path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4" /><rect x="7" y="13" width="10" height="8" rx="2" /></svg>
+                  Print
+                </button>
+              </div>
+
+            </div>
+          </div>
+          <div class="card-body">
+           
+            {% for hashdata in hash_details %}
+            <dl class="row">
+            <div class="hr-text">Last Analysis Stats</div>
+              
+              <dt class="col-5">Harmless:</dt>
+              {% if hashdata.last_analysis_stats.harmless is not empty %}
+
+              <dd class="col-7">{{hashdata.last_analysis_stats.harmless}}</dd>
+              {% else %}
+              <dd class="col-7">None</dd>
+              {% endif %}
+              <dt class="col-5">Malicious:</dt>
+              {% if hashdata.last_analysis_stats.malicious is not empty %}
+
+              <dd class="col-7">{{hashdata.last_analysis_stats.malicious}}</dd>
+              {% else %}
+              <dd class="col-7">None</dd>
+              {% endif %}
+              <dt class="col-5">Suspicious:</dt>
+              {% if hashdata.last_analysis_stats.suspicious is not empty %}
+              <dd class="col-7">{{hashdata.last_analysis_stats.suspicious}}</dd>
+              {% else %}
+              <dd class="col-7">None</dd>
+              {% endif %}
+              <dt class="col-5">Undetected:</dt>
+              {% if hashdata.last_analysis_stats.undetected is not empty %}
+              <dd class="col-7">{{hashdata.last_analysis_stats.undetected}}</dd>
+              {% else %}
+              <dd class="col-7">None</dd>
+              {% endif %}
+              <dt class="col-5">Type Unsupported:</dt>
+              <dd class="col-7">{% remove_hyphen_from_dict hashdata.last_analysis_stats "type-unsupported" %}</dd>
+              <dt class="col-5">Failure:</dt>
+              {% if hashdata.last_analysis_stats.failure is not empty %}
+              <dd class="col-7">{{hashdata.last_analysis_stats.failure}}</dd>
+              {% else %}
+              <dd class="col-7">None</dd>
+              {% endif %}
+              <dt class="col-5">Timeout:</dt>
+              {% if hashdata.last_analysis_stats.timeout is not empty %}
+
+              <dd class="col-7">{{hashdata.last_analysis_stats.timeout}}</dd>
+              {% else %}
+              <dd class="col-7">None</dd>
+              {% endif %}
+              <dt class="col-5">Confirmed Timeout:</dt>
+              <dd class="col-7">{% remove_hyphen_from_dict hashdata.last_analysis_stats "confirmed-timeout" %}</dd>
+
+            <div class="hr-text">Signature Information</div>
+           
+            <dl class="row">
+              <dt class="col-5">Meaningful Name:</dt>
+              <dd class="col-7">{{hashdata.meaningful_name}}</dd>
+              <dt class="col-5">Product:</dt>
+              {% if hashdata.signature_info.product is not empty %}
+              <dd class="col-7">{{hashdata.signature_info.product}}</dd>
+              {% else %}
+              <dd class="col-7">None</dd>
+              {% endif %}
+              
+              <dt class="col-5">Copyright:</dt>
+              {% if hashdata.signature_info.copyright is not empty %}
+              <dd class="col-7">{{hashdata.signature_info.copyright}}</dd>
+              {% else %}
+              <dd class="col-7">None</dd>
+              {% endif %}
+              <dt class="col-5">Description:</dt>
+              {% if hashdata.signature_info.description is not empty %}
+
+              <dd class="col-7">{{hashdata.signature_info.description}}</dd>
+              {% else %}
+              <dd class="col-7">None</dd>
+              {% endif %}
+              <dt class="col-5">File Version:</dt>
+              <dd class="col-7">{% dictKeyLookup hashdata.signature_info "file version" %}</dd>
+              <dt class="col-5">Internal Name:</dt>
+              <dd class="col-7">{% dictKeyLookup hashdata.signature_info "internal name" %}</dd> 
+              <!--the above dictKeyLookup is a custom filter that is used to remove the space between the dict key-->        
+            </dl>
+
+            <div class="hr-text">Votes Information</div>
+
+            <dl class="row">
+              <dt class="col-5">Harmless Votes:</dt>
+              <dd class="col-7">{{hashdata.votes.harmless}}</dd>
+              <dt class="col-5">Malicious Votes:</dt>
+              <dd class="col-7">{{hashdata.votes.malicious}}</dd>
+              
+            </dl>
+
+            {% endfor %}
+
+            <!--IP doesn't exists-->
+            {% if not_exist %}
+            <div class="alert alert-warning alert-dismissible" role="alert">
+              <div class="d-flex">
+                <div>
+                  <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
+                  <!-- SVG icon code with class="alert-icon" -->
+                </div>
+                <div>
+                  <h4 class="alert-title">Uh oh, something went wrong</h4>
+                  <div class="text-muted">IP <b>{{not_exist}}</b> doesn't exists in the table</div>
+                </div>
+              </div>
+              <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

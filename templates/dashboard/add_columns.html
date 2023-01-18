@@ -1,0 +1,225 @@
+{% extends 'base.html' %} {% load static %} {% block body %}
+<title>Add Columns</title>
+<div class="page-wrapper">
+  <div class="container-xl">
+    <!-- Page title -->
+
+    
+    <div class="page-header d-print-none">
+      <div class="row align-items-center">
+        <div class="col">
+          
+            <!-- Page pre-title -->
+            <div class="page-pretitle">
+              Home
+            </div>
+            <h2 class="page-title">
+              Add Columns
+            </h2>
+        
+          
+          <br>
+          <!--Column Name Exists Message-->
+          {% for message in messages%}
+          {% if 'column_already_exists' in message.tags %}
+          <div class="alert alert-important alert-warning alert-dismissible" role="alert">
+           <div class="d-flex">
+             <div>
+               <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-triangle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                 <path d="M12 9v2m0 4v.01"></path>
+                 <path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75"></path>
+              </svg>
+              </svg>
+             </div>
+             <div>
+               {{message}}
+             </div>
+           </div>
+           <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+         </div>
+         {% endif %}
+         {% endfor %}
+          <!--Column Name Exists message End-->
+
+          <!--Column Not found message starts-->
+          {% for message in messages%}
+          {% if 'column_not_found' in message.tags %}
+
+          <div class="alert alert-warning alert-dismissible" role="alert">
+          <div class="d-flex">
+            <div>
+              <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
+              <!-- SVG icon code with class="alert-icon" -->
+            </div>
+            <div>
+              <h4 class="alert-title">Uh oh, something went wrong</h4>
+              <div class="text-muted">{{message}}</div>
+            </div>
+          </div>
+          <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+        </div>
+        
+        {% endif %}
+        {% endfor %}
+        <!--Column Not found message ends-->
+
+          <!--Column Name deleted message starts-->
+   
+          {% for message in messages%}
+          {% if 'column_deleted' in message.tags %}
+
+          <div class="alert alert-important alert-success alert-dismissible" role="alert">
+            <div class="d-flex">
+              <div>
+            
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M5 12l5 5l10 -10"></path>
+              </svg>
+              </div>
+              <div>
+              {{message}}
+              </div>
+            </div>
+            <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+          </div>
+          {% endif %}
+          {% endfor %}
+          
+          <!--Column Name deleted message ends-->
+
+          <!--Column added message starts-->
+   
+          {% for message in messages%}
+          {% if 'column_added' in message.tags %}
+
+          <div class="alert alert-important alert-success alert-dismissible" role="alert">
+            <div class="d-flex">
+              <div>
+            
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M5 12l5 5l10 -10"></path>
+              </svg>
+              </div>
+              <div>
+              {{message}}
+              </div>
+            </div>
+            <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+          </div>
+          {% endif %}
+          {% endfor %}
+          
+          <!--Column added message ends-->
+
+
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-body">
+    <div class="container-xl">
+      <div class="row row-cards">
+        <div class="col-12">
+          <form
+            action="{% url 'add_columns' %}"
+            method="POST"
+            class="card"
+            enctype="multipart/form-data"
+          >
+            {% csrf_token %}
+            {% comment %} <div class="card-header">
+              <h4 class="card-title">Kindly Enter the Source and Destination address columns name</h4>
+            </div> {% endcomment %}
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-xl-4">
+                  <div class="row">
+                    <div class="col-md-6 col-xl-12">
+                      <div class="mb-3">
+                        <div class="form-floating mb-3">
+                          <input
+                            type="text"
+                            class="form-control required"
+                            id="floating-input"
+                            placeholder="Source Address"
+                            autocomplete="off"
+                            name="column_name"
+                            value="json.source_address"
+                            required
+                          />
+                          <label for="floating-input">Column Name</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                
+              </div>
+            </div>
+            <div class="card-footer text-end">
+              <div class="d-flex">
+                <a href="" class="btn btn-link">Cancel</a>
+                <button type="submit" class="btn btn-primary ms-auto">
+                  Add Column
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="hr-text">All Columns</div>
+
+        <div class="col-12">
+          <div class="card">
+            <div class="table-responsive">
+              <table class="table table-vcenter card-table">
+                <thead>
+                  <tr>
+                    <th>Column Name</th>
+                    <th>DateTime</th>
+                    <th>Actions</th>
+
+                    <th class="w-1"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for data in all_columns %}
+                  <tr>
+                    <td>{{data.column_name}}</td>
+                    <td>{{data.date_time}}</td>
+                   
+                    <td>
+                      <a href="{% url 'delete_column' column_name=data.column_name %}" style = "text-decoration: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-off" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                          <line x1="3" y1="3" x2="21" y2="21"></line>
+                          <path d="M4 7h3m4 0h9"></path>
+                          <line x1="10" y1="11" x2="10" y2="17"></line>
+                          <line x1="14" y1="14" x2="14" y2="17"></line>
+                          <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l.077 -.923"></path>
+                          <line x1="18.384" y1="14.373" x2="19" y2="7"></line>
+                          <path d="M9 5v-1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                       </svg>
+                      </a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock body %}
+</div>
