@@ -12,7 +12,7 @@
     <link href="{% static 'css/tabler-vendors.min.css' %}" rel="stylesheet" />
     <link href="{% static 'css/demo.min.css' %}" rel="stylesheet" />
 
-    <link rel="icon" type="image/x-icon" href="{% static 'icon.jpg' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'icon.png' %}">
 
   </head>
   <body >
@@ -23,8 +23,8 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <h1 class="navbar-brand navbar-brand-autodark">
-            <a href=".">
-              <img src="{% static 'logo1.png' %}" width="110" height="32" alt="Tabler" class="navbar-brand-image">
+            <a href="{% url 'index' %}">
+              <img src="{% static 'logo_white.png' %}" width="50" height="10" alt="BulkScanner" class="navbar-brand-image">
             </a>
           </h1>
          
@@ -43,6 +43,67 @@
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
                   <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-key" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <path d="M16.555 3.843l3.602 3.602a2.877 2.877 0 0 1 0 4.069l-2.643 2.643a2.877 2.877 0 0 1 -4.069 0l-.301 -.301l-6.558 6.558a2 2 0 0 1 -1.239 .578l-.175 .008h-1.172a1 1 0 0 1 -.993 -.883l-.007 -.117v-1.172a2 2 0 0 1 .467 -1.284l.119 -.13l.414 -.414h2v-2h2v-2l2.144 -2.144l-.301 -.301a2.877 2.877 0 0 1 0 -4.069l2.643 -2.643a2.877 2.877 0 0 1 4.069 0z"></path>
+                      <path d="M15 9h.01"></path>
+                   </svg>
+                  </span>
+                  <span class="nav-link-title">
+                    Add Keys
+                  </span>
+                </a>
+                <div class="dropdown-menu">
+                  <div class="dropdown-menu-columns">
+                    <div class="dropdown-menu-column">
+                      <a class="dropdown-item" href="{% url 'add_vt_api' %}" >
+                        VirusTotal
+                      </a>
+                      <a class="dropdown-item" href="{% url 'add_abuseipdb_api' %}" >
+                        AbuseIPDB
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'add_columns' %}" >
+                  <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/file-text -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-columns" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <line x1="4" y1="6" x2="9.5" y2="6"></line>
+                      <line x1="4" y1="10" x2="9.5" y2="10"></line>
+                      <line x1="4" y1="14" x2="9.5" y2="14"></line>
+                      <line x1="4" y1="18" x2="9.5" y2="18"></line>
+                      <line x1="14.5" y1="6" x2="20" y2="6"></line>
+                      <line x1="14.5" y1="10" x2="20" y2="10"></line>
+                      <line x1="14.5" y1="14" x2="20" y2="14"></line>
+                      <line x1="14.5" y1="18" x2="20" y2="18"></line>
+                   </svg>
+                  </span>
+                  <span class="nav-link-title">
+                    Add Columns
+                  </span>
+                </a>
+              </li>
+           
+              <li class="nav-item">
+                <a class="nav-link" href="./docs/index.html" >
+                  <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/file-text -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><line x1="9" y1="9" x2="10" y2="9" /><line x1="9" y1="13" x2="15" y2="13" /><line x1="9" y1="17" x2="15" y2="17" /></svg>
+                  </span>
+                  <span class="nav-link-title">
+                    Documentation
+                  </span>
+                </a>
+              </li>
+
+              <div class="hr-text">Tools</div>  
+             
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
+                  <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3" /><line x1="12" y1="12" x2="20" y2="7.5" /><line x1="12" y1="12" x2="12" y2="21" /><line x1="12" y1="12" x2="4" y2="7.5" /><line x1="16" y1="5.25" x2="8" y2="9.75" /></svg>
                   </span>
                   <span class="nav-link-title">
@@ -58,12 +119,6 @@
                       <a class="dropdown-item" href="{% url 'hash_scanner' %}" >
                         Hash Scanner
                       </a>
-                      <a class="dropdown-item" href="#" >
-                        URL Scanner
-                      </a>
-                      <a class="dropdown-item" href="#" >
-                        Domain Scanner
-                      </a>        
                       <div class="dropend">
                         <a class="dropdown-item dropdown-toggle" href="#sidebar-authentication" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
                           Results
@@ -71,9 +126,6 @@
                         <div class="dropdown-menu">
                           <a href="{% url 'malicious_ips' %}" class="dropdown-item">IPs</a>
                           <a href="{% url 'malicious_hashes' %}" class="dropdown-item">Hashes</a>
-                          <a href="#" class="dropdown-item">URLs</a>
-                          <a href="#" class="dropdown-item">Domains</a>
-                          
                         </div>
                       </div>
                       
@@ -109,52 +161,6 @@
                     </div>
                   </div>
                 </div>
-              </li>
-
-
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
-                  <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3" /><line x1="12" y1="12" x2="20" y2="7.5" /><line x1="12" y1="12" x2="12" y2="21" /><line x1="12" y1="12" x2="4" y2="7.5" /><line x1="16" y1="5.25" x2="8" y2="9.75" /></svg>
-                  </span>
-                  <span class="nav-link-title">
-                    Add Keys
-                  </span>
-                </a>
-                <div class="dropdown-menu">
-                  <div class="dropdown-menu-columns">
-                    <div class="dropdown-menu-column">
-                      <a class="dropdown-item" href="{% url 'add_vt_api' %}" >
-                        VirusTotal
-                      </a>
-                      <a class="dropdown-item" href="{% url 'add_abuseipdb_api' %}" >
-                        AbuseIPDB
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'add_columns' %}" >
-                  <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/file-text -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><line x1="9" y1="9" x2="10" y2="9" /><line x1="9" y1="13" x2="15" y2="13" /><line x1="9" y1="17" x2="15" y2="17" /></svg>
-                  </span>
-                  <span class="nav-link-title">
-                    Add Columns
-                  </span>
-                </a>
-              </li>
-           
-              <li class="nav-item">
-                <a class="nav-link" href="./docs/index.html" >
-                  <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/file-text -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><line x1="9" y1="9" x2="10" y2="9" /><line x1="9" y1="13" x2="15" y2="13" /><line x1="9" y1="17" x2="15" y2="17" /></svg>
-                  </span>
-                  <span class="nav-link-title">
-                    Documentation
-                  </span>
-                </a>
               </li>
             </ul>
           </div>
@@ -207,7 +213,7 @@
               </a>
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                 <a href="#" class="dropdown-item disabled">Set status</a>
-                <a href="#" class="dropdown-item disabled">Profile & account</a>
+                <a href="{% url 'user_profile' %}" class="dropdown-item">Profile & account</a>
                 <a href="#" class="dropdown-item disabled">Feedback</a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item disabled">Settings</a>
@@ -216,24 +222,10 @@
             </div>
           </div>
           <div class="collapse navbar-collapse" id="navbar-menu">
-            {% comment %} <div>
-              <form action="#" method="get">
-                {% csrf_token %}
-                <div class="input-icon">
-                  <span class="input-icon-addon">
-                    <!-- Download SVG icon from http://tabler-icons.io/i/search -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="10" cy="10" r="7" /><line x1="21" y1="21" x2="15" y2="15" /></svg>
-                  </span>
-                  
-                  <input type="text" class="form-control" placeholder="Search…" aria-label="Search in website" name="search_text">
-                </div>
-              </form>
-            </div> {% endcomment %}
           </div>
         </div>
       </header>
       <div class="page-wrapper">
-    
         
         {% block body %}
         {% endblock body %}
@@ -245,6 +237,6 @@
      <!-- Tabler Core -->
      <script src="{% static 'js/tabler.min.js' %}"></script>
      <script src="{% static 'js/demo.min.js' %}"></script>
-
+    
   </body>
 </html>

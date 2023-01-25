@@ -16,13 +16,16 @@
     <link href="{% static 'css/tabler-payments.min.css' %}" rel="stylesheet" />
     <link href="{% static 'css/tabler-vendors.min.css' %}" rel="stylesheet" />
     <link href="{% static 'css/demo.min.css' %}" rel="stylesheet" />
+
+    <link rel="icon" type="image/x-icon" href="{% static 'icon.png' %}">
+    
   </head>
   <body class="border-top-wide border-primary d-flex flex-column">
     <div class="page page-center">
       <div class="container-tight py-4">
         <div class="text-center mb-4">
-          <a href="." class="navbar-brand navbar-brand-autodark"
-            ><img src="{% static 'login.png' %}" height="70" alt=""
+          <a href="{% url 'login' %}" class="navbar-brand navbar-brand-autodark"
+            ><img src="{% static 'login.png' %}" height="120" alt=""
           /></a>
         </div>
         <form
@@ -34,6 +37,42 @@
           {% csrf_token %}
           <div class="card-body">
             <h2 class="card-title text-center mb-4">Login to your account</h2>
+
+
+           <!--logout Messages-->
+           {% for message in messages %} {% if 'not_logged_in_pass_update' in message.tags %}
+           <div class="alert alert-danger" role="alert">
+             <h4 class="alert-title">Error:</h4>
+             <div class="text-muted">{{message}}</div>
+           </div>
+           {% endif %} {% endfor %}
+           <!--logout Messages End-->
+
+
+            <!--password updated message starts-->
+   
+          {% for message in messages%}
+          {% if 'password_updated' in message.tags %}
+
+          <div class="alert alert-important alert-success alert-dismissible" role="alert">
+            <div class="d-flex">
+              <div>
+            
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M5 12l5 5l10 -10"></path>
+              </svg>
+              </div>
+              <div>
+              {{message}}
+              </div>
+            </div>
+            <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+          </div>
+          {% endif %}
+          {% endfor %}
+          
+          <!--password updated message ends-->
 
             <!--Login Messages-->
             {% for message in messages %} {% if 'login' in message.tags %}
@@ -56,7 +95,7 @@
             <!--logout Messages-->
             {% for message in messages %} {% if 'logout' in message.tags %}
             <div class="alert alert-danger" role="alert">
-              <h4 class="alert-title">What are you doing?</h4>
+              <h4 class="alert-title">Error:</h4>
               <div class="text-muted">{{message}}</div>
             </div>
             {% endif %} {% endfor %}
@@ -117,9 +156,5 @@
         </div>
       </div>
     </div>
-    <!-- Libs JS -->
-    <!-- Tabler Core -->
-    <script src="./dist/js/tabler.min.js"></script>
-    <script src="./dist/js/demo.min.js"></script>
   </body>
 </html>

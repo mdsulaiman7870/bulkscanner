@@ -16,13 +16,16 @@
     <link href="{% static 'css/tabler-payments.min.css' %}" rel="stylesheet" />
     <link href="{% static 'css/tabler-vendors.min.css' %}" rel="stylesheet" />
     <link href="{% static 'css/demo.min.css' %}" rel="stylesheet" />
+
+    <link rel="icon" type="image/x-icon" href="{% static 'icon.png' %}">
+
   </head>
   <body class="border-top-wide border-primary d-flex flex-column">
     <div class="page page-center">
       <div class="container-tight py-4">
         <div class="text-center mb-4">
           <a href="." class="navbar-brand navbar-brand-autodark"
-            ><img src="{% static 'logo7.jpg' %}" height="70" alt=""
+            ><img src="{% static 'signup.png' %}" height="120" alt=""
           /></a>
         </div>
         <form class="card card-md" action="{% url 'register' %}" method="POST">

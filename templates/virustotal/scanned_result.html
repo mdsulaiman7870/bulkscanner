@@ -79,8 +79,7 @@
                  </svg>
                 </div>
                 <div>
-                  No Malicious or new IPs Found. Non-Malicious IPs has been be stored in <a href="{% url 'allips' %}" style="color:black"> All IPs</a>.
-                  
+                  No New Malicious IP address Found. Below result may also contains IPs from the database that scanned previously. Can be recognize by <b>SCANNED TIME</b>.
                 </div>
               </div>
               <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
@@ -101,8 +100,7 @@
                  </svg>
                 </div>
                 <div>
-                  No Malicious or new hash Found. Non-Malicious hashes has been be stored in <a href="{% url 'all_hashes' %}" style="color:black"> All Hashes</a>.
-                  
+                 No New Malicious Hashes Found. Below result may also contains hashes from the database that scanned previously. Can be recognize by <b>SCANNED TIME</b>.
                 </div>
               </div>
               <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
@@ -135,64 +133,18 @@
             {% endfor %}
              <!--Daily Limit Exceeded message End-->
 
-             <!--Unknown Error Start-->
-             {% for message in messages%}
-             
-             {% if 'unknownerror' in message.tags %}
-             <div class="alert alert-warning alert-dismissible" role="alert">
-              <div class="d-flex">
-                <div>
-                  <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
-                  <!-- SVG icon code with class="alert-icon" -->
-                </div>
-                <div>
-                  <h4 class="alert-title">Uh oh, something went wrong</h4>
-                  <div class="text-muted">{{message}}</div>
-                </div>
-              </div>
-              <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
-            </div>
-            
-            {% endif %}
-            {% endfor %}
-             <!--Unknown Error End-->
-
-             <!-- Column Not Found Start-->
-             {% for message in messages%}
-             
-             {% if 'columnnotfound' in message.tags %}
-             <div class="alert alert-warning alert-dismissible" role="alert">
-              <div class="d-flex">
-                <div>
-                  <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
-                  <!-- SVG icon code with class="alert-icon" -->
-                </div>
-                <div>
-                  <h4 class="alert-title">Uh oh, something went wrong</h4>
-                  <div class="text-muted">{{message}} <b>Column Name</b> not found in the given csv log file. Make sure you selected the correct  column name or log file that contains the selected column name.</div>
-                </div>
-              </div>
-              <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
-            </div>
-            
-            {% endif %}
-            {% endfor %}
-             <!-- Column Not Found End-->
-             
-               <!--Malicious IPS Found Message-->
+              <!--Malicious IPS Found Message-->
              {% if ip_malicious_found is True %}
              <div class="alert alert-important alert-success alert-dismissible" role="alert">
               <div class="d-flex">
                 <div>
-               
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                     <path d="M5 12l5 5l10 -10"></path>
                  </svg>
                 </div>
                 <div>
-                  Malicious IPs Found. Malicious IPs has been stored in <a href="{% url 'malicious_ips' %}" style="color:black"> <b>Malicious IPs</a></b>
-                  
+                  New Malicious IP addresses Found. Below result may also contains IPs from the database that scanned previously. Can be recognize by <b>SCANNED TIME</b>.
                 </div>
               </div>
               <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
@@ -212,8 +164,7 @@
                  </svg>
                 </div>
                 <div>
-                  Malicious Hashes Found. Malicious Hashes has been stored in <a href="{% url 'malicious_hashes' %}" style="color:black"> <b>Results/Hashes</a></b>
-                  
+                  New Malicious Hashes Found. Below result may also contains hashes from the database that scanned previously. Can be recognize by <b>SCANNED TIME</b>.
                 </div>
               </div>
               <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
@@ -222,9 +173,12 @@
              <!--Malicious Hashes Found Message End-->
     </div>
     <div class="page-body">
-      <div class="container-xl">
+      
+      <div class="container-xl">        
         <div class="row row-cards">
-
+          <div class="page-pretitle">
+            Malicious Items
+          </div>
         <div class="col-12">
           <div class="card">
             <div class="table-responsive">
@@ -232,7 +186,10 @@
                 <thead>
                   <tr>
                     <th>Object</th>
-                    
+                    <th>Harmless</th>
+                    <th>Malicious</th>
+                    <th>Suspicious</th>
+                    <th>Scanned Time</th>
                     <th>VirusTotal Link</th>
                     <th>Actions</th>
 
@@ -240,62 +197,72 @@
                   </tr>
                 </thead>
                 <tbody>
-                  
-                  {% for data in ip_scanned_result %}
-                  <tr>
-                    <td>
-                      <a href="https://{{data}}" target="_blank">{{data}}</a>
-                      </td>
-                      <td>
-                        <a href="https://www.virustotal.com/gui/ip-address/{{data}}" target="_blank">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                          <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
-                          <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
-                       </svg>
-                      </a>
-                      </td>
-                      <td>
-
-                        <a href="{% url 'ip_details' ip=data %}" style = "text-decoration: none;" target="_blank">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                           <circle cx="12" cy="12" r="2"></circle>
-                           <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path>
-                        </svg>
-                       </a>   
-                      </td>                 
-                  </tr>
-                  {% endfor %}
+                  <!--Malicious IPs Scanned Result Starts-->
+                  {% if ip_scanned_result %}
+                    {% for data in ip_scanned_result %}
+                      <tr>
+                        <td>
+                          <a href="https://{{data.ip}}" target="_blank">{{data.ip}}</a>
+                          </td>
+                          <td>{{data.last_analysis_stats.harmless}}</td>
+                          <td>{{data.last_analysis_stats.malicious}}</td>
+                          <td>{{data.last_analysis_stats.suspicious}}</td>
+                          <td>{{data.date_time}}</td>
+                          <td>
+                            <a href="https://www.virustotal.com/gui/ip-address/{{data.ip}}" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                              <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
+                              <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
+                           </svg>
+                          </a>
+                          </td>
+                          <td>
+                            <a href="{% url 'ip_details' ip=data.ip %}" style = "text-decoration: none;" target="_blank">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                               <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                               <circle cx="12" cy="12" r="2"></circle>
+                               <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path>
+                            </svg>
+                           </a>   
+                          </td>         
+                      </tr>
+                    {% endfor %}
+                  <!--Malicious IPs Scanned Result Ends-->
 
                   <!--Malicious Hash Scanned Results Starts-->
-                  {% if hash_malicious_found is True %}
-                  {% for data in hash_scanned_result %}
-                  <tr>
-                    <td>
-                      {{data}}
-                      </td>
+                  {% elif hash_scanned_result %}
+                    {% for data in hash_scanned_result %}
+                    <tr>
                       <td>
-                        <a href="https://www.virustotal.com/gui/file/{{data}}" target="_blank">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                          <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
-                          <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
-                       </svg>
-                      </a>
-                      </td>
-                  
-                      <td>           
-                        <a href="{% url 'hash_details' hash=data %}" style = "text-decoration: none;" target="_blank">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                           <circle cx="12" cy="12" r="2"></circle>
-                           <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path>
+                        <a href="https://{{data.hash}}" target="_blank">{{data.hash}}</a>
+                        </td>
+                        <td>{{data.last_analysis_stats.harmless}}</td>
+                        <td>{{data.last_analysis_stats.malicious}}</td>
+                        <td>{{data.last_analysis_stats.suspicious}}</td>
+                        <td>{{data.date_time}}</td>
+                        <td>
+                          <a href="https://www.virustotal.com/gui/file/{{data.hash}}" target="_blank">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
+                            <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
                         </svg>
-                       </a>   
-                      </td>                 
-                  </tr>
-                  {% endfor %}
+                        </a>
+                        </td>
+                        <td>
+                          <a href="{% url 'hash_details' hash=data.hash %}" style = "text-decoration: none;" target="_blank">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <circle cx="12" cy="12" r="2"></circle>
+                            <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path>
+                          </svg>
+                        </a>   
+                        </td>         
+                    </tr>
+                    {% endfor %}
+                  {% else %}
+                  <td colspan="6" style="text-align:center">No Items found.</td>
                   {% endif %}
                   <!--Malicious Hash Scanned Results ends-->
                 </tbody>
@@ -303,13 +270,73 @@
             </div>
           </div>
         </div>
-          
+
+        <!--Failed Results Start-->
+        <div class="page-pretitle">
+          Failed Items
         </div>
-
+          <div class="col-12">
+            <div class="card">
+              <div class="table-responsive">
+                <table class="table table-vcenter card-table">
+                  <thead>
+                    <tr>
+                      <th>Object</th>
+                      <th>Error</th>
+                      <th>VirusTotal Link</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% if ip_failed_scanned_result %}
+                      {% for data in ip_failed_scanned_result %}
+                        <tr>
+                          <td>
+                            <a href="https://{{data.ip}}" target="_blank">{{data.ip}}</a>
+                            </td>
+                            <td>{{data.error}}</td>
+                            <td>
+                              <a href="https://www.virustotal.com/gui/ip-address/{{data.ip}}" target="_blank">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
+                                <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
+                             </svg>
+                            </a>
+                            </td>
+                                     
+                        </tr>
+                      {% endfor %}
+                    {% elif hash_failed_scanned_result%}
+                      {% for data in hash_failed_scanned_result %}
+                        <tr>
+                          <td>
+                            {{data.hash}}
+                            </td>
+                            <td>{{data.error}}</td>
+                            <td>
+                              <a href="https://www.virustotal.com/gui/file/{{data.hash}}" target="_blank">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
+                                <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
+                            </svg>
+                            </a>
+                            </td>
+                        </tr>
+                      {% endfor %}
+                    {% else %}
+                      <td colspan="6" style="text-align:center">No Failed Items found.</td>
+                    {% endif %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        <!--Failed Result End-->
+        </div>
       </div>
-      
-    </div>
-    
-  </div>
 
+  
+    </div>
+  </div>
 {% endblock body %}

@@ -12,4 +12,4 @@ urlpatterns = [
 ]
 
 handler404 = 'dashboard.views.custom_404'
-handler404 = 'dashboard.views.custom_500'
+handler500 = 'dashboard.views.custom_500'

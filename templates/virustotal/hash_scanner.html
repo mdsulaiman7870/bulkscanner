@@ -18,25 +18,29 @@
             </ol>
 
             <br>
-            {% for message in messages %}
-            <div class="alert alert-important alert-info alert-dismissible" role="alert">
-              <div class="d-flex">
-                <div>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-dots" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4"></path>
-                    <line x1="12" y1="11" x2="12" y2="11.01"></line>
-                    <line x1="8" y1="11" x2="8" y2="11.01"></line>
-                    <line x1="16" y1="11" x2="16" y2="11.01"></line>
-                 </svg>
-                </div>
-                <div>
-                 {{message}}
-                </div>
+            <!-- Column Not Found Start-->
+            {% for message in messages%}
+
+            {% if 'columnnotfound' in message.tags %}
+            <div class="alert alert-warning alert-dismissible" role="alert">
+            <div class="d-flex">
+              <div>
+                <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
+                <!-- SVG icon code with class="alert-icon" -->
               </div>
-              <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+              <div>
+                <h4 class="alert-title">Uh oh, something went wrong</h4>
+                <div class="text-muted">{{message}} <b>Column Name</b> not found in the given csv log file. Make sure you selected the correct  column name or log file that contains the selected column name.</div>
+              </div>
             </div>
-            {% endfor %}         
+            <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+          </div>
+          
+          {% endif %}
+          {% endfor %}
+            <!-- Column Not Found End-->
+
+            
           </div>
 
           
@@ -48,6 +52,9 @@
         <div class="row row-cards">
           <!--Scan in Bulk Start-->
           <div class="col-7">
+            <div class="progress progress-sm" style="display: none;">
+              <div class="progress-bar progress-bar-indeterminate"></div>
+            </div>
             <form action="{% url 'hash_scanner' %}" method="POST" class="card" enctype="multipart/form-data">
               {% csrf_token %}
               <div class="card-header">
@@ -108,63 +115,20 @@
             </form>
           </div>
           <!--Scan in Bulk End-->
-
-          <!--Scan Single IP Start-->
           <div class="col-5">
-            <form action="{% url 'scan_single_hash' %}" method="POST" class="card" enctype="multipart/form-data">
-              {% csrf_token %}
-              <div class="card-header">
-                <h4 class="card-title">Scan Single Hash</h4>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="row">
-                      <div class="col-md-6 col-xl-12">                        
-                        
-                        <div class="mb-3">
-                          <div class="form-label required">Select API</div>
-                          <select class="form-select" name="vt_api">
-                            {% comment %} <option  disabled selected hidden>Select API Key</option> {% endcomment %}
-
-                            {% for data in vt_api_data %}
-                              <option value="{{data.api}}">{{data.api|slice:":10"}} - {{data.full_name}}</option>
-                              
-                            {% endfor %}
-                          </select>
-                        </div>
-
-
-                        <div class="mb-3">
-                          <div class="form-floating mb-3">
-                            <input
-                              type="text"
-                              class="form-control required"
-                              id="floating-input"
-                              placeholder="Enter API Key "
-                              autocomplete="off"
-                              name="hash"
-                              required
-                            />
-                            <label for="floating-input">Enter/Paste Hash</label>
-                          </div>
-                        </div>
-                                           
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer text-end">
-                <div class="d-flex">
-                  <a href="" class="btn btn-link">Cancel</a>
-                  <button type="submit" class="btn btn-primary ms-auto">
-                    Scan Now
-                  </button>
-                </div>
-              </div>
-            </form>
+            <div class="markdown">
+              <ul>
+                <li>Please upload a CSV file only.</li>
+                <li>Make sure your file is not too large, as VirusTotal allows only 500 requests in 24 hours.</li>
+                <li>Check your API lookups before scanning a large file.</li>
+                <li>If API lookups reachs to its limit during scanning, just change the API key from "Select API" dropdown and scan it again.</li>
+                <li>You will not miss any data if a scan stops for any reason, just re-scan the file.</li>
+                <li>Make sure you select the right column name.</li>
+                <li>Scanning a large file may take some time, also depends on the internet speed and device specification.</li>
+  
+              </ul>
+            </div>
           </div>
-          <!--Scan Single IP ends-->
 
         </div>
 
@@ -173,5 +137,11 @@
     </div>
     
   </div>
-
+  <!--Display progress bar after submiting form.-->
+  <script>
+    document.querySelector("form").addEventListener("submit", function() {
+      // Show the progress bar
+      document.querySelector(".progress").style.display = "";
+  });
+  </script>
 {% endblock body %}

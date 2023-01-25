@@ -161,6 +161,9 @@
         <div class="row row-cards">
           <!--Scan in Bulk Start-->
           <div class="col-7">
+            <div class="progress progress-sm" style="display: none;">
+              <div class="progress-bar progress-bar-indeterminate"></div>
+            </div>
             <form action="{% url 'abuseipdb_ip_scanner' %}" method="POST" class="card" enctype="multipart/form-data">
               {% csrf_token %}
               <div class="card-header">
@@ -222,62 +225,20 @@
           </div>
           <!--Scan in Bulk End-->
 
-          <!--Scan Single IP Start-->
           <div class="col-5">
-            <form action="{% url 'abuseipdb_scan_single_ip' %}" method="POST" class="card" enctype="multipart/form-data">
-              {% csrf_token %}
-              <div class="card-header">
-                <h4 class="card-title">Scan Single IP</h4>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="row">
-                      <div class="col-md-6 col-xl-12">                        
-                        
-                        <div class="mb-3">
-                          <div class="form-label required">Select API</div>
-                          <select class="form-select" name="abuseipdb_api">
-                            {% comment %} <option  disabled selected hidden>Select API Key</option> {% endcomment %}
-
-                            {% for data in abuseipdb_api_data %}
-                              <option value="{{data.api}}">{{data.api|slice:":10"}} - {{data.full_name}}</option>
-                              
-                            {% endfor %}
-                          </select>
-                        </div>
-
-
-                        <div class="mb-3">
-                          <div class="form-floating mb-3">
-                            <input
-                              type="text"
-                              class="form-control required"
-                              id="floating-input"
-                              placeholder="Enter API Key "
-                              autocomplete="off"
-                              name="ip_address"
-                              required
-                            />
-                            <label for="floating-input">Enter IP address</label>
-                          </div>
-                        </div>
-                                           
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer text-end">
-                <div class="d-flex">
-                  <a href="" class="btn btn-link">Cancel</a>
-                  <button type="submit" class="btn btn-primary ms-auto">
-                    Scan Now
-                  </button>
-                </div>
-              </div>
-            </form>
+            <div class="markdown">
+              <ul>
+                <li>Please upload a CSV file only.</li>
+                <li>Make sure your file is not too large, as AbuseIPDB allows only 100 requests in 24 hours.</li>
+                <li>Check your API lookups before scanning a large file.</li>
+                <li>If API lookups reachs to its limit during scanning, just change the API key from "Select API" dropdown and scan it again.</li>
+                <li>You will not miss any data if a scan stops for any reason, just re-scan the file.</li>
+                <li>Make sure you select the right column name.</li>
+                <li>Scanning a large file may take some time, also depends on the internet speed and device specification.</li>
+  
+              </ul>
+            </div>
           </div>
-          <!--Scan Single IP ends-->
 
         </div>
 
@@ -286,5 +247,11 @@
     </div>
     
   </div>
-
+  <!--Display progress bar after submiting form.-->
+  <script>
+    document.querySelector("form").addEventListener("submit", function() {
+      // Show the progress bar
+      document.querySelector(".progress").style.display = "";
+  });
+  </script>
 {% endblock body %}
