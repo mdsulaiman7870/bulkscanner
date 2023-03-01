@@ -27,6 +27,7 @@ class ip_addresses(models.Model):
 class failed_scanned_ip(models.Model):
     ip = models.CharField(max_length=20, unique=True)
     error_message = models.TextField(null=True)
+    date_time = models.DateTimeField(default=datetime.datetime.now())
 
     def __str__(self):
         return self.ip

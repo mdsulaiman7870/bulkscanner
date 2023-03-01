@@ -16,6 +16,9 @@ def bulk_ip_scanner(request):
         ip_malicious_found = False
         ip_flag_for_run_another_scan = True
 
+        ip_scanned_result = []
+        ip_failed_scanned_result = []
+
         if request.method == 'POST':
 
             apikey = request.POST['vt_api']
@@ -101,8 +104,8 @@ def bulk_ip_scanner(request):
                                 if erro_code == "QuotaExceededError":
                                     messages.info(
                                         request, "Your daily limit has been exceeded. Kindly Change your API Key and try again.", extra_tags='apilimit')
-                                    return render(request, 'virustotal/scanned_result.html', {'ip_scanned_result': ip_scanned_result, 'ip_malicious_found': ip_malicious_found, 'ip_flag_for_run_another_scan': ip_flag_for_run_another_scan})
-
+                                    # return render(request, 'virustotal/scanned_result.html', {'ip_scanned_result': ip_scanned_result, 'ip_malicious_found': ip_malicious_found, 'ip_flag_for_run_another_scan': ip_flag_for_run_another_scan})
+                                    break
                                 else:
 
                                     message = decodedResponse["error"]["message"]
@@ -119,8 +122,6 @@ def bulk_ip_scanner(request):
                             continue
 
                 # display malicious and failed IPs only in the given log file(newly scanned old both) for display on scanned_result.html
-                ip_scanned_result = []
-                ip_failed_scanned_result = []
 
                 for i in ip_add:
                     success_result = ip_addresses.objects.filter(
@@ -451,6 +452,9 @@ def hash_scanner(request):
             hash_malicious_found = False
             hash_flag_for_run_another_scan = True
 
+            hash_scanned_result = []
+            hash_failed_scanned_result = []
+
             apikey = request.POST['vt_api']
             column_name = request.POST['column_name']
 
@@ -517,14 +521,14 @@ def hash_scanner(request):
                             if erro_code == "QuotaExceededError":
                                 messages.info(
                                     request, "Your daily or hourly limit has been exceeded. Kindly Change your API Key and try again.", extra_tags='apilimit')
-                                return render(request, 'virustotal/scanned_result.html', {'hash_failed_scanned_result': hash_failed_scanned_result, 'hash_scanned_result': hash_scanned_result, 'hash_flag_for_run_another_scan': hash_flag_for_run_another_scan})
-
+                                # return render(request, 'virustotal/scanned_result.html', {'hash_failed_scanned_result': hash_failed_scanned_result, 'hash_scanned_result': hash_scanned_result, 'hash_flag_for_run_another_scan': hash_flag_for_run_another_scan})
+                                break
                             else:
 
                                 message = decodedResponse["error"]["message"]
                                 error_message = erro_code + ": " + message
                                 datafor_hash = failed_scanned_hash(
-                                    hash=hash,
+                                    hash=i,
                                     error=error_message
                                 )
 
@@ -535,8 +539,8 @@ def hash_scanner(request):
 
                 # display malicious and failed hashes only in the given log file(newly scanned old both) for display on scanned_result.html
 
-                hash_scanned_result = []
-                hash_failed_scanned_result = []
+                # hash_scanned_result = []
+                # hash_failed_scanned_result = []
 
                 for i in hash:
                     success_result = hashes.objects.filter(

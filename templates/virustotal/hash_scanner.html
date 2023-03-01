@@ -40,6 +40,28 @@
           {% endfor %}
             <!-- Column Not Found End-->
 
+            <!-- apilimit starts-->
+            {% for message in messages%}
+
+            {% if 'apilimit' in message.tags %}
+            <div class="alert alert-warning alert-dismissible" role="alert">
+            <div class="d-flex">
+              <div>
+                <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
+                <!-- SVG icon code with class="alert-icon" -->
+              </div>
+              <div>
+                <h4 class="alert-title">Uh oh, something went wrong</h4>
+                <div class="text-muted">{{message}} <b>Column Name</b> not found in the given csv log file. Make sure you selected the correct  column name or log file that contains the selected column name.</div>
+              </div>
+            </div>
+            <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+          </div>
+          
+          {% endif %}
+          {% endfor %}
+            <!-- apilimit End-->
+
             
           </div>
 

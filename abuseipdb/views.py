@@ -20,6 +20,9 @@ def bulk_ip_scanner(request):
             ip_malicious_found = False
             ip_flag_for_run_another_scan = True
 
+            ip_scanned_result = []
+            ip_failed_sanned_result = []
+
             apikey = request.POST['abuseipdb_api']
             column_name = request.POST['column_name']
 
@@ -120,8 +123,8 @@ def bulk_ip_scanner(request):
                                 if erro_status == 429:
                                     messages.info(
                                         request, "Your daily or hourly limit has been exceeded. Kindly Change your API Key and try again.", extra_tags='apilimit')
-                                    return render(request, 'abuseipdb/scanned_result.html', {'ip_failed_sanned_result': ip_failed_sanned_result, 'ip_scanned_result': ip_scanned_result, 'ip_flag_for_run_another_scan': ip_flag_for_run_another_scan})
-
+                                    # return render(request, 'abuseipdb/scanned_result.html', {'ip_failed_sanned_result': ip_failed_sanned_result, 'ip_scanned_result': ip_scanned_result, 'ip_flag_for_run_another_scan': ip_flag_for_run_another_scan})
+                                    break
                                 else:
 
                                     message = decodedResponse["error"]["message"]
@@ -140,8 +143,6 @@ def bulk_ip_scanner(request):
                             pass
 
                 # display malicious and failed IPs only in the given log file(newly scanned old both) for display on scanned_result.html
-                ip_scanned_result = []
-                ip_failed_sanned_result = []
 
                 for i in ip_add:
                     success_result = ip_addresses.objects.filter(

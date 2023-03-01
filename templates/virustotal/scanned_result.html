@@ -47,7 +47,7 @@
       <br>
 
           <!--Message Start-->
-          {% for message in messages %}
+          {% comment %} {% for message in messages %}
           <div class="alert alert-important alert-info alert-dismissible" role="alert">
             <div class="d-flex">
               <div>
@@ -64,7 +64,7 @@
             </div>
             <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
           </div>
-          {% endfor %}
+          {% endfor %} {% endcomment %}
           <!--Message ends-->
             <!--No Malicious IPs Found Message-->
             {% if ip_malicious_found is False %}
