@@ -126,9 +126,9 @@ You can add multiple API keys and can be recoganize by Owner Email or Name.
 Columns are the keys in log files such as source_ip, destination_ip, md5_hash, etc..
 
 Suppose the below CSV log file. Here, we will add **source_ip** and **destination_ip** column names so we can select it when analyzing or scanning this file.
-![Add Column names](static\img\docs-images\log-sample.png)
+![Add Column names](https://github.com/Salman7870/bulkscanner/blob/4af0492466e2bf82a24dec524a8ccc87f047f328/static/img/docs-images/log-sample.png)
 To do this, click on **Add Columns** and enter the column name.
-![Add Column names](static\img\docs-images\add-columns.png)
+![Add Column names](https://github.com/Salman7870/bulkscanner/blob/4af0492466e2bf82a24dec524a8ccc87f047f328/static/img/docs-images/add-api-keys.png)
 
 
 ## Scan a file
