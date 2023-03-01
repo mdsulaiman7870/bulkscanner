@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="static\logo_white.png" alt="Markdownify" width="200"></a>
+  <a href=""><img src="https://github.com/Salman7870/bulkscanner/blob/b324771cc72abe95a7f7421b42964f17247434c9/static/logo.png" alt="Markdownify" width="200"></a>
   <br>
   BulkScanner
   <br>
@@ -10,15 +10,12 @@
 <h4 align="center">A tool for SOC Analysts to analyze observables in bulk.</h4>
 
 <p align="center">
-  <a href="https://badge.fury.io/js/electron-markdownify">
-    <img src="https://badge.fury.io/js/electron-markdownify.svg"
+  <a href="#">
+    <img src="https://badge.fury.io/py/django.svg"
          alt="Gitter">
   </a>
   <a href="https://saythanks.io/to/muhammadsulaiman7870">
       <img src="https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg">
-  </a>
-  <a href="https://www.paypal.me/AmitMerchant">
-    <img src="https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&amp;style=flat">
   </a>
 </p>
 
@@ -30,11 +27,13 @@
   <a href="#how-to-use">How To Use</a> •
   <a href="#currently-integrated-tools">Currently Integrated Tools</a> •
   <a href="#about-secret-key">About secret_key.yaml file</a> •
+  <a href="#technology-used-in-this-project">Technology used in this project</a> •
   <a href="#license">License</a>
 </p>
 
 # Introduction
 BulkScanner is a web based tool designed and developed for a security/SOC analysts to analyze observables in bulk such as IP addresses, hashes, urls, and domains. BulkScanner is based on open-source intelligence analyzers such as VirusTotal, AbuseIPDB, X-Force Exchange(IBM), metadefender etc. 
+
 
 # Key Features
 
@@ -118,7 +117,7 @@ Or to create a normal user, just visit http://127.0.0.1:8000/accounts/register t
 
 ## Add  API Keys 
 First of all, add API keys of the tools which you want to use such as VirusTotal and AbuseIPDB.
-![Add API keys](static\img\docs-images\add-api-keys.png)
+![Add API keys](https://github.com/Salman7870/bulkscanner/blob/b324771cc72abe95a7f7421b42964f17247434c9/static/img/docs-images/add-api-keys.png)
 
 You can add multiple API keys and can be recoganize by Owner Email or Name.
 
@@ -134,7 +133,7 @@ To do this, click on **Add Columns** and enter the column name.
 ## Scan a file
 
 Now you are ready to go. Select your desire tool under **Tools**, then select API key, column name and upload your CSV log file. Click on **Scan Now** button.
-![Scan a file](static\img\docs-images\scan-file.png)
+![Scan a file](https://github.com/Salman7870/bulkscanner/blob/b324771cc72abe95a7f7421b42964f17247434c9/static/img/docs-images/scan-file.png)
 
 # Currently Integrated Tools
 
@@ -161,15 +160,27 @@ Now everytime, when a user run the application, it will use the secret key store
 
 ## Support
 
-<a href="https://www.buymeacoffee.com/5Zn8Xh3l9" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+<a href="https://www.buymeacoffee.com/mdsulaiman" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
+
+# Technology used in this project
+- Python
+- Django
+- HTML
+- CSS
+- JavaScript
+
+# Credits
+
+ - [Tabler](https://tabler.io/) template is used. 
+- [VirusTotal](https://www.virustotal.com/)
+- [AbuseIPDB](https://www.abuseipdb.com/)
 
 ## License
 
 MIT
 
 ---
-
-> [amitmerchant.com](https://www.amitmerchant.com) &nbsp;&middot;&nbsp;
-> GitHub [@amitmerchant1990](https://github.com/amitmerchant1990) &nbsp;&middot;&nbsp;
-> Twitter [@amit_merchant](https://twitter.com/amit_merchant)
+> GitHub [@Salman7870](https://github.com/Salman7870/) &nbsp;&middot;&nbsp;
+> LinkedIn [@muhammad-sulaiman7870](https://www.linkedin.com/in/muhammad-sulaiman7870/)
 
